@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do You Love Your Server?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .card p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .yes-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            position: relative;
+        }
+
+        .no-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            animation: popUp 0.5s ease;
+            position: relative;
+        }
+
+        @keyframes popUp {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-content h2 {
+            font-size: 36px;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .modal-content p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .close-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Diwali Lights Animation */
+        .diwali-lights {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .light {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px currentColor;
+            animation: flicker 0.6s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+        }
+
+        .light.red {
+            background: #ff4444;
+            color: #ff4444;
+        }
+
+        .light.yellow {
+            background: #ffdf00;
+            color: #ffdf00;
+        }
+
+        .light.green {
+            background: #00dd00;
+            color: #00dd00;
+        }
+
+        .light.blue {
+            background: #0099ff;
+            color: #0099ff;
+        }
+
+        .light.purple {
+            background: #dd00dd;
+            color: #dd00dd;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(-40px) translateX(-10px);
+            }
+            75% {
+                transform: translateY(-20px) translateX(10px);
+            }
+        }
+
+        .light.float {
+            animation: flicker 0.6s infinite, float 3s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>❤️ Do You Love Your Server? ❤️</h1>
+        <p>I hope you're having an amazing experience. Please let me know!</p>
+        <div class="button-group">
+            <button class="yes-btn" onclick="showCongratulations()">Yes 👍</button>
+            <button class="no-btn" id="noBtn" onclick="moveNoButton()">No 👎</button>
+        </div>
+    </div>
+
+    <!-- Modal for Congratulations -->
+    <div class="modal" id="congratulationsModal">
+        <div class="modal-content">
+            <h2>🎉 Congratulations! 🎉</h2>
+            <p>Thank you so much for your amazing support! You're the best! 🌟</p>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Diwali Lights Container -->
+    <div class="diwali-lights" id="diwaliLights"></div>
+
+    <script>
+        // Move No Button
+        function moveNoButton() {
+            const noBtn = document.getElementById('noBtn');
+            const randomX = Math.random() * (window.innerWidth - 150);
+            const randomY = Math.random() * (window.innerHeight - 100);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        // Show Congratulations Modal
+        function showCongratulations() {
+            const modal = document.getElementById('congratulationsModal');
+            modal.classList.add('show');
+            createDiwaliLights();
+        }
+
+        // Close Modal
+        function closeModal() {
+            const modal = document.getElementById('congratulationsModal');
+            modal.classList.remove('show');
+            removeDiwaliLights();
+        }
+
+        // Create Diwali Lights
+        function createDiwaliLights() {
+            const container = document.getElementById('diwaliLights');
+            container.innerHTML = ''; // Clear existing lights
+            
+            const colors = ['red', 'yellow', 'green', 'blue', 'purple'];
+            const lightCount = 30;
+
+            for (let i = 0; i < lightCount; i++) {
+                const light = document.createElement('div');
+                light.classList.add('light', colors[Math.floor(Math.random() * colors.length)]);
+                
+                const randomX = Math.random() * window.innerWidth;
+                const randomY = Math.random() * window.innerHeight;
+                const randomDelay = Math.random() * 0.6;
+                const randomDuration = 2 + Math.random() * 2;
+
+                light.style.left = randomX + 'px';
+                light.style.top = randomY + 'px';
+                light.style.animationDelay = randomDelay + 's';
+                light.style.animationDuration = randomDelay + 0.6 + 's, ' + randomDuration + 's';
+                
+                if (Math.random() > 0.5) {
+                    light.classList.add('float');
+                }
+
+                container.appendChild(light);
+            }
+        }
+
+        // Remove Diwali Lights
+        function removeDiwaliLights() {
+            const container = document.getElementById('diwaliLights');
+            container.innerHTML = '';
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('congratulationsModal');
+            const modalContent = modal.querySelector('.modal-content');
+            
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
